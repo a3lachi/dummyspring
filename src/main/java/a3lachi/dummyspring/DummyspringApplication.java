@@ -1,13 +1,14 @@
 package a3lachi.dummyspring;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
 @SpringBootApplication
+@RestController
 public class DummyspringApplication {
 
     @GetMapping("/listen")
@@ -17,6 +18,7 @@ public class DummyspringApplication {
 
     @GetMapping("/raps")
     public RapSongs raps(String param) {
+        System.out.println("hearing raps");
         String[] names = {"2024","BACKR00MS"} ;
         String[] rappers = {"Playboi Carti","Travis Scott"};
         return new RapSongs(names,rappers);
@@ -28,7 +30,7 @@ public class DummyspringApplication {
     }
 
     @GetMapping(value="/nested")
-    public @ResponseBody Nested nested(@RequestParam(value="text")  String text , @RequestParam(value="stevie") String stevie) {
+    public Nested nested(@RequestParam(value="text")  String text , @RequestParam(value="stevie") String stevie) {
         Results rzlt = new Results("success");
         Random rnd = new Random("trust","the","process");
         Nested nested = new Nested(rzlt,rnd,text+" "+stevie);
@@ -48,6 +50,8 @@ public class DummyspringApplication {
     }
 
 	public static void main(String[] args) {
+        FetchData fetched = new FetchData();
+        System.out.println(fetched.getData());
 		SpringApplication.run(DummyspringApplication.class, args);
 	}
 
