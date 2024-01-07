@@ -4,6 +4,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import a3lachi.dummyspring.*;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -49,9 +52,19 @@ public class DummyspringApplication {
         return nested;
     }
 
+    @GetMapping("/fetch")
+    public FetchedData fetch(@RequestParam("id") String id) {
+        String fetched =  Fetch.FetchData("http://dummyjson.com/products/"+id);
+        if (!fetched.equals("")) {
+            FetchedData fData = FormatData.format(fetched);
+            return fData;
+        } else {
+            return null;
+        }
+    }
+
+
 	public static void main(String[] args) {
-        FetchData fetched = new FetchData();
-        System.out.println(fetched.getData());
 		SpringApplication.run(DummyspringApplication.class, args);
 	}
 

@@ -6,13 +6,9 @@ import java.net.http.HttpResponse;
 import java.io.IOException;
 
 
-class FetchData {
+class Fetch {
 
-    String data ;
-
-    public FetchData() {
-
-        String apiUrl = "http://dummyjson.com/products/1";
+    public static String FetchData(String apiUrl) {
 
         HttpClient httpClient = HttpClient.newBuilder()
                 .followRedirects(HttpClient.Redirect.NORMAL)
@@ -28,16 +24,88 @@ class FetchData {
 
             int statusCode = httpResponse.statusCode();
             String responseBody = httpResponse.body();
-            this.data = responseBody ;
 
-            System.out.println("Status Code: " + statusCode);
+            if (statusCode == 200) {
+                return responseBody;
+            } else {
+                return "";
+            }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            return "";
         }
 
     }
+}
 
-    public String getData() {
-        return this.data ;
+class FetchedData {
+    int id ;
+    String title ;
+    String description ;
+    double price;
+    double discountPercentage;
+    double rating;
+
+    public FetchedData(int id, String title, String description, double price,double discountPercentage, double rating ) {
+        this.id = id;
+        this.title = title ;
+        this.description = description ;
+        this.price = price;
+        this.discountPercentage = discountPercentage;
+        this.rating = rating ;
+    }
+
+    public String toString() {
+        return "id : "+this.id+", title : "+this.title+", description : "+this.description ;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public String getDescription() {
+        return this.description ;
+    }
+
+    public double getPrice() {
+        return this.price ;
+    }
+
+    public double getDiscountPercentage() {
+        return this.discountPercentage;
+    }
+
+    public double getRating() {
+        return this.rating ;
     }
 }
+
+class FormatData {
+
+    public static FetchedData format(String data) {
+
+        String dataSub = data.substring(data.indexOf(":")+1);
+        String idStr = dataSub.substring(0,dataSub.indexOf(","));
+        int id = Integer.parseInt(idStr);
+        dataSub = dataSub.substring(dataSub.indexOf(":\"")+2);
+        String title = dataSub.substring(0, dataSub.indexOf("\""));
+        dataSub = dataSub.substring(dataSub.indexOf(":\"")+2);
+        String description = dataSub.substring(0, dataSub.indexOf("\""));
+        dataSub = dataSub.substring(dataSub.indexOf(":")+1);
+        double price = Double.parseDouble(dataSub.substring(0, dataSub.indexOf(",")));
+        dataSub = dataSub.substring(dataSub.indexOf(":")+1);
+        double discountPercentage = Double.parseDouble(dataSub.substring(0, dataSub.indexOf(",")));
+        dataSub = dataSub.substring(dataSub.indexOf(":")+1);
+        double rating = Double.parseDouble(dataSub.substring(0, dataSub.indexOf(",")));
+        System.out.println(dataSub);
+        FetchedData fetchedData = new FetchedData(id,title,description,price,discountPercentage,rating);
+
+        return fetchedData ;
+    }
+}
+
+
