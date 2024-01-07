@@ -6,7 +6,6 @@ Build with :
 ```
 mvn package
 ```
-
 <br>
 Run the app with : 
 ```
