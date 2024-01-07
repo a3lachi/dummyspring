@@ -61,6 +61,7 @@ public class DummyApplication {
     public static void main(String[] args) {
 
         FetchData dummyData = new FetchData();
+        System.out.println(dummyData.getData());
 
         SpringApplication.run(DummyApplication.class, args);
     }

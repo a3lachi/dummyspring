@@ -1,10 +1,10 @@
-package com.example.dummy;
+package a3lachi.dummyspring;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DummyApplicationTests {
+class DummyspringApplicationTests {
 
 	@Test
 	void contextLoads() {
