@@ -1,14 +1,12 @@
 package a3lachi.dummyspring;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import a3lachi.dummyspring.*;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+
 
 @SpringBootApplication
 @RestController
@@ -54,7 +52,9 @@ public class DummyspringApplication {
 
     @GetMapping("/fetch")
     public FetchedData fetch(@RequestParam("id") String id) {
-        String fetched =  Fetch.FetchData("http://dummyjson.com/products/"+id);
+        // String fetched =  Fetch.FetchData("http://dummyjson.com/products/"+id);
+        String fetched = "{\"id\":1,\"title\":\"iPhone 9\",\"description\":\"An apple mobile which is nothing like apple\",\"price\":549,\"discountPercentage\":12.96,\"rating\":4.69,\"stock\":94,\"brand\":\"Apple\",\"category\":\"smartphones\",\"thumbnail\":\"https://cdn.dummyjson.com/product-images/1/thumbnail.jpg\",\"images\":[\"https://cdn.dummyjson.com/product-images/1/1.jpg\",\"https://cdn.dummyjson.com/product-images/1/2.jpg\",\"https://cdn.dummyjson.com/product-images/1/3.jpg\",\"https://cdn.dummyjson.com/product-images/1/4.jpg\",\"https://cdn.dummyjson.com/product-images/1/thumbnail.jpg\"]}" ;
+
         if (!fetched.equals("")) {
             FetchedData fData = FormatData.format(fetched);
             return fData;

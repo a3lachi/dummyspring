@@ -16,7 +16,7 @@ class Fetch {
 
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(apiUrl))
-                .GET() // Perform a GET request
+                .GET()  
                 .build();
 
         try {
@@ -45,18 +45,44 @@ class FetchedData {
     double price;
     double discountPercentage;
     double rating;
+    int stock;
+    String brand;
+    String category;
+    String thumbnail;
+    String[] images ;
 
-    public FetchedData(int id, String title, String description, double price,double discountPercentage, double rating ) {
+    public FetchedData(int id, String title, String description, double price,double discountPercentage, double rating , int stock, String brand,String category, String thumbnail , String[] images ) {
         this.id = id;
         this.title = title ;
         this.description = description ;
         this.price = price;
         this.discountPercentage = discountPercentage;
         this.rating = rating ;
+        this.stock = stock ;
+        this.brand = brand ;
+        this.category = category ;
+        this.thumbnail = thumbnail ;
+        this.images = images ;
+    }
+
+    public String[] getImages() {
+        return this.images ;
+    }
+
+    public String getThumbnail() {
+        return this.thumbnail;
+    }
+
+    public String getCategory() {
+        return this.category ;
     }
 
     public String toString() {
         return "id : "+this.id+", title : "+this.title+", description : "+this.description ;
+    }
+
+    public String getBrand() {
+        return this.brand ;
     }
 
     public int getId() {
@@ -82,6 +108,10 @@ class FetchedData {
     public double getRating() {
         return this.rating ;
     }
+
+    public int getStock() {
+        return this.stock;
+    }
 }
 
 class FormatData {
@@ -101,8 +131,19 @@ class FormatData {
         double discountPercentage = Double.parseDouble(dataSub.substring(0, dataSub.indexOf(",")));
         dataSub = dataSub.substring(dataSub.indexOf(":")+1);
         double rating = Double.parseDouble(dataSub.substring(0, dataSub.indexOf(",")));
+        dataSub = dataSub.substring(dataSub.indexOf(":")+1);
+        int stock = Integer.parseInt(dataSub.substring(0, dataSub.indexOf(",")));
+        dataSub = dataSub.substring(dataSub.indexOf(":")+2);
+        String brand = dataSub.substring(0, dataSub.indexOf("\""));
+        dataSub = dataSub.substring(dataSub.indexOf(":")+2);
+        String category = dataSub.substring(0, dataSub.indexOf("\""));
+        dataSub = dataSub.substring(dataSub.indexOf(":")+2);
+        String thumbnail = dataSub.substring(0, dataSub.indexOf("\""));
+
+        String[] images = {"image 1", "image 2"};
+        dataSub = dataSub.substring(dataSub.indexOf(":")+2);
+        FetchedData fetchedData = new FetchedData(id,title,description,price,discountPercentage,rating,stock,brand,category,thumbnail,images);
         System.out.println(dataSub);
-        FetchedData fetchedData = new FetchedData(id,title,description,price,discountPercentage,rating);
 
         return fetchedData ;
     }
