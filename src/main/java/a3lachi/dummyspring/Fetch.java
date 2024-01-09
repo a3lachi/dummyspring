@@ -5,6 +5,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 
 class Fetch {
@@ -40,7 +41,7 @@ class Fetch {
 }
 
 
-class FetchedData {
+class productData {
     int id ;
     String title ;
     String description ;
@@ -54,7 +55,7 @@ class FetchedData {
     // String[] images ;
     ArrayList<String> images ;
 
-    public FetchedData(int id, String title, String description, double price,double discountPercentage, double rating , int stock, String brand,String category, String thumbnail , ArrayList<String> images ) {
+    public productData(int id, String title, String description, double price,double discountPercentage, double rating , int stock, String brand,String category, String thumbnail , ArrayList<String> images ) {
         this.id = id;
         this.title = title ;
         this.description = description ;
@@ -125,7 +126,7 @@ class FetchedData {
 
 class FormatData {
 
-    public static FetchedData format(String data) {
+    public static productData formatProduct(String data) {
 
         String dataSub = data.substring(data.indexOf(":")+1);
         String idStr = dataSub.substring(0,dataSub.indexOf(","));
@@ -149,10 +150,7 @@ class FormatData {
         dataSub = dataSub.substring(dataSub.indexOf(":")+2);
         String thumbnail = dataSub.substring(0, dataSub.indexOf("\""));
 
-        // String[] images = {"image 1", "image 2"};
-
         dataSub = dataSub.substring(dataSub.indexOf("[")+1);
-
         ArrayList<String> images = new ArrayList<>();
 
         while (dataSub.indexOf(",")>-1) {
@@ -163,11 +161,31 @@ class FormatData {
 
         String pStr = dataSub.substring(1, dataSub.indexOf("]")-1);
         images.add(pStr);
-        System.out.println(images);
+        productData productData = new productData(id,title,description,price,discountPercentage,rating,stock,brand,category,thumbnail,images);
+        return productData ;
+    }
 
-        FetchedData fetchedData = new FetchedData(id,title,description,price,discountPercentage,rating,stock,brand,category,thumbnail,images);
+    public static CartData formatCart(int id , String cart) {
+        
 
-        return fetchedData ;
+        String subCart = cart.substring(cart.indexOf("[")+1);
+        // System.out.println(subCart);
+        ArrayList<CartProducts> products = new ArrayList<>();
+        CartProducts cartProduct = new CartProducts(2, "iphone");
+        CartProducts cartProductTwo = new CartProducts(45, "samsung");
+
+        products.add(cartProduct);
+        products.add(cartProductTwo);
+
+        // while (subCart.indexOf("{")>-1){
+        //     String product = subCart.substring(0, subCart.indexOf("}"));
+        //     System.out.println(product);
+        //     subCart = subCart.substring(0,subCart.indexOf("}"));
+        // }
+
+        CartData cartData = new CartData(id,products);
+
+        return cartData;
     }
 }
 

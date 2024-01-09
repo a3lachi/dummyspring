@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-public class GetFetch {
+public class GetProduct {
 
   @ResponseBody
-  @GetMapping("/products")
-    public FetchedData fetch(@RequestParam("id") String id) {
+  @GetMapping("/product")
+    public productData fetch(@RequestParam("id") String id) {
         String fetched =  Fetch.FetchData("http://dummyjson.com/products/"+id);
         if (!fetched.equals("")) {
-            FetchedData fData = FormatData.format(fetched);
+            productData fData = FormatData.formatProduct(fetched);
             return fData;
         } else {
             return null;

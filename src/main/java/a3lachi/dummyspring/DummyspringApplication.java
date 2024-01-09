@@ -25,7 +25,7 @@ public class DummyspringApplication {
         return new RapSongs(names,rappers);
     }
 
-    @GetMapping("/products")
+    @GetMapping("/productz")
     public Results products(String param) {
         return new Results("loading...");
     }
