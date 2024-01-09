@@ -1,4 +1,5 @@
 package a3lachi.dummyspring;
+import java.util.ArrayList;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -38,6 +39,7 @@ class Fetch {
     }
 }
 
+
 class FetchedData {
     int id ;
     String title ;
@@ -49,9 +51,10 @@ class FetchedData {
     String brand;
     String category;
     String thumbnail;
-    String[] images ;
+    // String[] images ;
+    ArrayList<String> images ;
 
-    public FetchedData(int id, String title, String description, double price,double discountPercentage, double rating , int stock, String brand,String category, String thumbnail , String[] images ) {
+    public FetchedData(int id, String title, String description, double price,double discountPercentage, double rating , int stock, String brand,String category, String thumbnail , ArrayList<String> images ) {
         this.id = id;
         this.title = title ;
         this.description = description ;
@@ -65,9 +68,9 @@ class FetchedData {
         this.images = images ;
     }
 
-    public String[] getImages() {
-        return this.images ;
-    }
+    // public String[] getImages() {
+    //     return this.images ;
+    // }
 
     public String getThumbnail() {
         return this.thumbnail;
@@ -112,7 +115,13 @@ class FetchedData {
     public int getStock() {
         return this.stock;
     }
+
+    public ArrayList<String> getImages() {
+        return this.images ;
+    }
 }
+
+
 
 class FormatData {
 
@@ -140,10 +149,23 @@ class FormatData {
         dataSub = dataSub.substring(dataSub.indexOf(":")+2);
         String thumbnail = dataSub.substring(0, dataSub.indexOf("\""));
 
-        String[] images = {"image 1", "image 2"};
-        dataSub = dataSub.substring(dataSub.indexOf(":")+2);
+        // String[] images = {"image 1", "image 2"};
+
+        dataSub = dataSub.substring(dataSub.indexOf("[")+1);
+
+        ArrayList<String> images = new ArrayList<>();
+
+        while (dataSub.indexOf(",")>-1) {
+            String pStr = dataSub.substring(1, dataSub.indexOf(",")-1);
+            images.add(pStr);
+            dataSub = dataSub.substring(dataSub.indexOf(",")+1);
+        }
+
+        String pStr = dataSub.substring(1, dataSub.indexOf("]")-1);
+        images.add(pStr);
+        System.out.println(images);
+
         FetchedData fetchedData = new FetchedData(id,title,description,price,discountPercentage,rating,stock,brand,category,thumbnail,images);
-        System.out.println(dataSub);
 
         return fetchedData ;
     }
