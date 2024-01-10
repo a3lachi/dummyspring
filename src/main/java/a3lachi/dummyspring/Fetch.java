@@ -169,7 +169,7 @@ class FormatData {
         
 
         String subCart = cart.substring(cart.indexOf("[")+1);
-        // System.out.println(subCart);
+        System.out.println(subCart);
         ArrayList<CartProducts> products = new ArrayList<>();
         CartProducts cartProduct = new CartProducts(2, "iphone");
         CartProducts cartProductTwo = new CartProducts(45, "samsung");
