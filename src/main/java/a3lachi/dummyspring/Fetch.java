@@ -165,26 +165,50 @@ class FormatData {
         return productData ;
     }
 
+    private static String formatCartProduct(ArrayList<CartProducts> cartProduct , String cart) {
+        String subCart = cart ;
+        while (subCart.indexOf("{")>-1) {
+            int id = Integer.parseInt(subCart.substring(subCart.indexOf(":")+1, subCart.indexOf(",")));
+            subCart = subCart.substring(subCart.indexOf(",")+1);
+            String title = subCart.substring(subCart.indexOf(":")+2, subCart.indexOf(",")-1);
+            subCart = subCart.substring(subCart.indexOf(",")+1);
+            int price = Integer.parseInt(subCart.substring(subCart.indexOf(":")+1, subCart.indexOf(",")));
+            subCart = subCart.substring(subCart.indexOf(",")+1);
+            int quantity = Integer.parseInt(subCart.substring(subCart.indexOf(":")+1, subCart.indexOf(",")));
+            subCart = subCart.substring(subCart.indexOf(",")+1);
+            int total = Integer.parseInt(subCart.substring(subCart.indexOf(":")+1, subCart.indexOf(",")));
+            subCart = subCart.substring(subCart.indexOf(",")+1);
+            float discountPercentage = Float.parseFloat(subCart.substring(subCart.indexOf(":")+1, subCart.indexOf(",")));
+            subCart = subCart.substring(subCart.indexOf(",")+1);
+            int discountedPrice = Integer.parseInt(subCart.substring(subCart.indexOf(":")+1, subCart.indexOf(",")));
+            subCart = subCart.substring(subCart.indexOf(",")+1);
+            String thumbnail = subCart.substring(subCart.indexOf(":")+2, subCart.indexOf(",")-2);
+            subCart = subCart.substring(subCart.indexOf(",")+1);
+            CartProducts cartProducts = new CartProducts(id, title,price,quantity,total,discountPercentage,discountedPrice,thumbnail);
+            cartProduct.add(cartProducts);
+        }
+        return subCart ;
+    }
+
     public static CartData formatCart(int id , String cart) {
-        
-
         String subCart = cart.substring(cart.indexOf("[")+1);
-        System.out.println(subCart);
         ArrayList<CartProducts> products = new ArrayList<>();
-        CartProducts cartProduct = new CartProducts(2, "iphone");
-        CartProducts cartProductTwo = new CartProducts(45, "samsung");
-
-        products.add(cartProduct);
-        products.add(cartProductTwo);
-
-        // while (subCart.indexOf("{")>-1){
-        //     String product = subCart.substring(0, subCart.indexOf("}"));
-        //     System.out.println(product);
-        //     subCart = subCart.substring(0,subCart.indexOf("}"));
-        // }
-
-        CartData cartData = new CartData(id,products);
-
+        subCart = formatCartProduct(products,subCart);
+        CartProducts pCartProduct = products.get(products.size()-1);
+        String pThumbnail = pCartProduct.thumbnail ;
+        pCartProduct.thumbnail = pThumbnail.substring(0,pThumbnail.indexOf("\""));
+        products.remove(products.size()-1);
+        products.add(pCartProduct);
+        int total = Integer.parseInt(subCart.substring(subCart.indexOf(":")+1,subCart.indexOf(",")));
+        subCart = subCart.substring(subCart.indexOf(",")+1);
+        int discountedTotal = Integer.parseInt(subCart.substring(subCart.indexOf(":")+1, subCart.indexOf(",")));
+        subCart = subCart.substring(subCart.indexOf(",")+1);
+        int userId = Integer.parseInt(subCart.substring(subCart.indexOf(":")+1, subCart.indexOf(",")));
+        subCart = subCart.substring(subCart.indexOf(",")+1);
+        int totalProducts = Integer.parseInt(subCart.substring(subCart.indexOf(":")+1, subCart.indexOf(",")));
+        subCart = subCart.substring(subCart.indexOf(",")+1);
+        int totalQuantity = Integer.parseInt(subCart.substring(subCart.indexOf(":")+1, subCart.indexOf("}")));
+        CartData cartData = new CartData(id,products,total,discountedTotal,userId,totalProducts,totalQuantity);
         return cartData;
     }
 }
