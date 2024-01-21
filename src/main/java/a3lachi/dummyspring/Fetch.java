@@ -191,6 +191,7 @@ class FormatData {
     }
 
     public static CartData formatCart(int id , String cart) {
+        
         String subCart = cart.substring(cart.indexOf("[")+1);
         ArrayList<CartProducts> products = new ArrayList<>();
         subCart = formatCartProduct(products,subCart);

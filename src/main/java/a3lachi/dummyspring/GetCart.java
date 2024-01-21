@@ -31,7 +31,7 @@ class CartProducts {
     this.quantity = quantity ;
    } 
 
-   public String geTthumbnail() {
+   public String getThumbnail() {
     return this.thumbnail ;
    }
 
